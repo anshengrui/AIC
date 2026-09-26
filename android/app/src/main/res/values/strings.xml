@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EasyAccess</string>
+    <string name="highlight_label_format">  %1$s  </string>
+    <string name="no_highlight_target">暂时没有可高亮的控件，请打开目标 App 后重试。</string>
+    <string name="enable_vision_overlay">此页面未开放控件，请在 EasyAccess 中开启本机视觉识别</string>
+    <string name="vision_failed_overlay">页面还在加载，请稍后再试</string>
+    <string name="vision_no_match_overlay">AI 暂时无法确定下一步，请保持当前页面并点击“AI识别”重试</string>
+    <string name="vision_enabled_status">✓ 本机视觉识别已开启</string>
+    <string name="vision_disabled_status">本机视觉识别默认关闭</string>
+    <string name="enable_on_device_vision">同意并开启本机视觉识别</string>
+    <string name="disable_on_device_vision">关闭本机视觉识别</string>
+    <string name="ai_guidance_enabled_status">✓ AI 界面识别已开启（本机失败时使用）</string>
+    <string name="ai_guidance_disabled_status">AI 界面识别默认关闭</string>
+    <string name="enable_ai_guidance">同意并开启 AI 界面识别</string>
+    <string name="disable_ai_guidance">关闭 AI 界面识别</string>
+    <string name="ai_unavailable_overlay">暂时无法连接 AI 服务，请确认电脑后端正在运行</string>
+    <string name="no_guidance_task_selected">尚未选择任务</string>
+    <string name="selected_guidance_task_format">✓ 当前任务：%1$s</string>
+    <string name="service_enabled_status">✓ 界面辅助服务已开启</string>
+    <string name="service_disabled_status">界面辅助服务尚未开启</string>
+    <string name="voice_not_heard">没有听清，请再说一次或使用任务按钮</string>
+    <string name="voice_heard_format">听到：%1$s</string>
+    <string name="voice_not_supported">请在需求中说明使用淘宝、支付宝或微信，例如“帮我在淘宝申请退款”</string>
+    <string name="active_session_format">✓ 正在帮助：%1$s</string>
+    <string name="no_active_session">尚未开始帮助，请从上方选择</string>
+    <string name="no_observation">尚未收到页面信息</string>
+    <string name="accessibility_service_label">EasyAccess 界面辅助</string>
+    <string name="accessibility_service_description">读取淘宝、支付宝和微信的可访问界面结构；经用户主动开启后，可在本机识别导航按钮，或将当前截图发送至用户配置的 AI 后端。不会自动点击或确认支付。</string>
+</resources>

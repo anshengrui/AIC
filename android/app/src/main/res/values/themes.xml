@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.EasyAccess" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/easyaccess_blue</item>
+        <item name="colorPrimaryVariant">@color/easyaccess_blue_dark</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/easyaccess_background</item>
+        <item name="android:windowBackground">@color/easyaccess_background</item>
+    </style>
+</resources>

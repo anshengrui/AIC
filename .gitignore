@@ -1,0 +1,19 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+backend/easyaccess.db
+backend/uploads/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+tmp/
+.tmp/
+.gradle-user-home/
+.DS_Store
+
+# Local competition/reference files are intentionally not published.
+kernel_*.asc
+EasyAccess_项目交接与执行规格书_v1.0.pdf
+参赛选手承诺书.pdf
