@@ -5,9 +5,12 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.view.MotionEvent
+import android.view.ViewConfiguration
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import kotlin.math.abs
 
 class SessionControlView(
     context: Context,
@@ -16,6 +19,7 @@ class SessionControlView(
     private val onAiAnalyze: () -> Unit,
     private val onPauseToggle: () -> Unit,
     private val onEnd: () -> Unit,
+    private val onMove: (deltaX: Int, deltaY: Int) -> Unit,
 ) : LinearLayout(context) {
     private val pauseButton: Button
 
@@ -32,14 +36,7 @@ class SessionControlView(
         }
         elevation = dp(10).toFloat()
 
-        addView(TextView(context).apply {
-            text = "EasyAccess 正在帮助\n$taskTitle"
-            textSize = 16f
-            gravity = Gravity.CENTER
-            setTextColor(Color.WHITE)
-            setTypeface(typeface, Typeface.BOLD)
-            setPadding(dp(6), 0, dp(6), dp(10))
-        })
+        addView(dragHandle(taskTitle))
         addView(controlButton("重复提示") { onRepeat() })
         addView(controlButton("AI 找下一步") { onAiAnalyze() }.apply {
             setTextColor(Color.rgb(0, 82, 164))
@@ -49,6 +46,75 @@ class SessionControlView(
         addView(controlButton("结束帮助") { onEnd() }.apply {
             setTextColor(Color.rgb(132, 26, 34))
         })
+    }
+
+    private fun dragHandle(taskTitle: String): AppCompatTextView = object : AppCompatTextView(context) {
+        private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
+        private var downRawX = 0f
+        private var downRawY = 0f
+        private var lastRawX = 0f
+        private var lastRawY = 0f
+        private var dragging = false
+
+        init {
+            text = "≡ 按住这里移动\nEasyAccess 正在帮助\n$taskTitle"
+            textSize = 16f
+            gravity = Gravity.CENTER
+            setTextColor(Color.WHITE)
+            setTypeface(typeface, Typeface.BOLD)
+            setPadding(dp(6), 0, dp(6), dp(10))
+            contentDescription = "按住并拖动悬浮控制面板"
+            isClickable = true
+        }
+
+        override fun onTouchEvent(event: MotionEvent): Boolean {
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    downRawX = event.rawX
+                    downRawY = event.rawY
+                    lastRawX = event.rawX
+                    lastRawY = event.rawY
+                    dragging = false
+                    return true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    if (!dragging && (
+                            abs(event.rawX - downRawX) >= touchSlop ||
+                                abs(event.rawY - downRawY) >= touchSlop
+                            )
+                    ) {
+                        dragging = true
+                    }
+                    if (dragging) {
+                        onMove(
+                            (event.rawX - lastRawX).toInt(),
+                            (event.rawY - lastRawY).toInt(),
+                        )
+                    }
+                    lastRawX = event.rawX
+                    lastRawY = event.rawY
+                    return true
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    if (!dragging) performClick()
+                    dragging = false
+                    return true
+                }
+
+                MotionEvent.ACTION_CANCEL -> {
+                    dragging = false
+                    return true
+                }
+            }
+            return super.onTouchEvent(event)
+        }
+
+        override fun performClick(): Boolean {
+            super.performClick()
+            return true
+        }
     }
 
     fun setPaused(paused: Boolean) {

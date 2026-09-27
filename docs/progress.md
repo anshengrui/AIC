@@ -2,7 +2,7 @@
 
 更新日期：2026-09-27
 事实来源：`EasyAccess_项目交接与执行规格书_v1.0.pdf`
-当前里程碑：v0.9.0 云端交接完成；转入正式 Demo、数据评测与提交材料
+当前里程碑：v0.9.1 正式测试；Render 云端已接通，悬浮控制面板支持拖动
 
 ## 状态约定
 
@@ -18,7 +18,7 @@
 | 项目 | 状态 | 结论 |
 | --- | --- | --- |
 | 已有实现 | 已检查 | 初始仅有规格书和参赛承诺书，无代码或依赖配置 |
-| Git | 已处理 | `main` 已连接 `origin=https://github.com/anshengrui/AIC.git`；交接前最新远端提交为 `5962674` |
+| Git | 已处理 | `main` 已连接 `origin=https://github.com/anshengrui/AIC.git`，交接与后续版本持续推送到该分支 |
 | Node.js | 可用 | v24.16.0，npm 11.13.0 |
 | Python | 已处理 | 系统有 Python 3.12，已创建项目内 `.venv`；默认 `python` 仍指向旧版 3.7 |
 | FastAPI 依赖 | 已完成 | 已安装至 `.venv`，健康检查与 API 测试通过 |
@@ -32,10 +32,12 @@
 - [x] 云函数 Python 3.10 部署清单增加 `exceptiongroup` 兼容依赖。
 - [x] Android 首页和悬浮面板完成第一轮视觉优化，版本升级为 `0.9.0`。
 - [x] Redmi 23049RAD8C 覆盖安装并启动 v0.9.0 成功。
+- [x] Render 客户端令牌已与 Android 对齐，业务会话鉴权返回 HTTP 201。
+- [x] Android v0.9.1 已构建、Lint 通过并覆盖安装；悬浮控制面板拖动完成真机确认。
 - [x] 交接基线：后端 23 项测试、Web 类型检查/构建、Android 构建/Lint 全部通过。
 - [x] 新增 `AGENTS.md`、`docs/TEAM_HANDOFF.md`、初赛材料清单和提交包目录说明。
 - [ ] 队友在自己的环境完成一次全新克隆和 Mock 启动验证。
-- [ ] 将 Android 本机令牌与 Render 环境变量对齐后，断开电脑/ADB 完成一次云端通用 AI 真机任务并检查 Render 日志。
+- [-] 断开电脑/ADB 完成一次云端通用 AI 真机任务并检查 Render 日志。
 
 ## D1-D2：工程骨架与 Mock 闭环
 

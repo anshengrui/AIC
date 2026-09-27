@@ -43,6 +43,8 @@ class EasyAccessAccessibilityService : AccessibilityService() {
     private var lastOverlayKey = ""
     private var sessionControlView: SessionControlView? = null
     private var sessionControlTaskTitle = ""
+    private var sessionControlX: Int? = null
+    private var sessionControlY: Int? = null
     private var captureGeneration = 0
     private var lastEventPackageName = ""
     private var lastEventNodes: List<UiNodeSnapshot> = emptyList()
@@ -1136,7 +1138,9 @@ class EasyAccessAccessibilityService : AccessibilityService() {
             removeSessionControls()
         }
         val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        val view = SessionControlView(
+        lateinit var params: WindowManager.LayoutParams
+        lateinit var view: SessionControlView
+        view = SessionControlView(
             context = this,
             taskTitle = taskTitle,
             onRepeat = {
@@ -1171,6 +1175,18 @@ class EasyAccessAccessibilityService : AccessibilityService() {
                 showMessageOverlay(message, OverlayTone.SUCCESS, END_OVERLAY_DURATION_MS)
                 speakGuidance(message, force = true)
             },
+            onMove = { deltaX, deltaY ->
+                val margin = (8 * resources.displayMetrics.density).toInt()
+                val maxX = (resources.displayMetrics.widthPixels - view.width - margin)
+                    .coerceAtLeast(margin)
+                val maxY = (resources.displayMetrics.heightPixels - view.height - margin)
+                    .coerceAtLeast(margin)
+                params.x = (params.x + deltaX).coerceIn(margin, maxX)
+                params.y = (params.y + deltaY).coerceIn(margin, maxY)
+                sessionControlX = params.x
+                sessionControlY = params.y
+                runCatching { windowManager.updateViewLayout(view, params) }
+            },
         ).apply {
             setPaused(GuidancePreferences.isPaused(this@EasyAccessAccessibilityService))
         }
@@ -1183,7 +1199,7 @@ class EasyAccessAccessibilityService : AccessibilityService() {
         wechatSearchEntryOffered = false
         wechatSearchEntryOfferedAtMillis = 0L
         wechatSearchTargetBounds = null
-        val params = WindowManager.LayoutParams(
+        params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
@@ -1192,13 +1208,26 @@ class EasyAccessAccessibilityService : AccessibilityService() {
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             android.graphics.PixelFormat.TRANSLUCENT,
         ).apply {
-            gravity = Gravity.END or Gravity.CENTER_VERTICAL
-            x = (8 * resources.displayMetrics.density).toInt()
+            gravity = Gravity.START or Gravity.TOP
+            x = sessionControlX ?: 0
+            y = sessionControlY ?: 0
         }
         runCatching {
             windowManager.addView(view, params)
             sessionControlView = view
             sessionControlTaskTitle = taskTitle
+            view.post {
+                val margin = (8 * resources.displayMetrics.density).toInt()
+                val maxX = (resources.displayMetrics.widthPixels - view.width - margin)
+                    .coerceAtLeast(margin)
+                val maxY = (resources.displayMetrics.heightPixels - view.height - margin)
+                    .coerceAtLeast(margin)
+                params.x = (sessionControlX ?: maxX).coerceIn(margin, maxX)
+                params.y = (sessionControlY ?: ((maxY + margin) / 2)).coerceIn(margin, maxY)
+                sessionControlX = params.x
+                sessionControlY = params.y
+                runCatching { windowManager.updateViewLayout(view, params) }
+            }
         }
     }
 
