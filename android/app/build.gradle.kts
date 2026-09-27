@@ -1,7 +1,22 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val easyAccessLocalProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use(::load)
+}
+
+fun easyAccessConfig(name: String, fallback: String): String =
+    providers.environmentVariable(name).orNull
+        ?: easyAccessLocalProperties.getProperty(name)
+        ?: fallback
+
+fun quotedBuildConfig(value: String): String =
+    "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
 android {
     namespace = "com.easyaccess.app"
@@ -13,6 +28,22 @@ android {
         targetSdk = 35
         versionCode = 16
         versionName = "0.8.6"
+
+        buildConfigField(
+            "String",
+            "EASYACCESS_API_BASE_URL",
+            quotedBuildConfig(
+                easyAccessConfig(
+                    "EASYACCESS_API_BASE_URL",
+                    "http://127.0.0.1:8000/api",
+                )
+            ),
+        )
+        buildConfigField(
+            "String",
+            "EASYACCESS_API_TOKEN",
+            quotedBuildConfig(easyAccessConfig("EASYACCESS_API_TOKEN", "")),
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,6 +65,10 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 

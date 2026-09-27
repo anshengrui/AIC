@@ -2,6 +2,7 @@ package com.easyaccess.app.ai
 
 import android.graphics.Bitmap
 import android.graphics.Rect
+import com.easyaccess.app.BuildConfig
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
@@ -22,7 +23,8 @@ data class ModelGuidanceResult(
 )
 
 class ModelGuidanceClient(
-    private val baseUrl: String = DEFAULT_BASE_URL,
+    private val baseUrl: String = BuildConfig.EASYACCESS_API_BASE_URL,
+    private val apiToken: String = BuildConfig.EASYACCESS_API_TOKEN,
 ) {
     fun analyze(
         bitmap: Bitmap,
@@ -98,6 +100,9 @@ class ModelGuidanceClient(
             connectTimeout = CONNECT_TIMEOUT_MS
             readTimeout = READ_TIMEOUT_MS
             useCaches = false
+            if (apiToken.isNotBlank()) {
+                setRequestProperty("X-EasyAccess-Key", apiToken)
+            }
         }
 
     private fun readJsonResponse(connection: HttpURLConnection): JSONObject {

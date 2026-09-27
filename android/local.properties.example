@@ -1,0 +1,4 @@
+# Copy these entries into android/local.properties after cloud deployment.
+# Keep the real token only in local.properties; never commit it.
+EASYACCESS_API_BASE_URL=https://your-function-url.example/api
+EASYACCESS_API_TOKEN=replace_with_the_same_random_token_used_in_the_cloud

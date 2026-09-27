@@ -15,6 +15,8 @@ def _as_bool(value: str, default: bool) -> bool:
 
 @dataclass(frozen=True)
 class Settings:
+    app_env: str = os.getenv("APP_ENV", "development")
+    api_access_token: str = os.getenv("EASYACCESS_API_TOKEN", "")
     llm_api_key: str = os.getenv("LLM_API_KEY", "")
     llm_base_url: str = os.getenv("LLM_BASE_URL", "https://example.invalid/v1")
     llm_model: str = os.getenv("LLM_MODEL", "multimodal-model-name")

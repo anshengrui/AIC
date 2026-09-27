@@ -32,6 +32,33 @@ class ApiFlowTests(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         self.assertNotIn("api_key", response.json())
 
+    def test_platform_health_is_available(self):
+        response = self.client.get("/healthz")
+        self.assertEqual(200, response.status_code)
+        self.assertEqual("ok", response.json()["status"])
+
+    def test_configured_client_token_protects_api(self):
+        import app.main as main_module
+
+        protected_settings = self.mock_settings.__class__(
+            mock_mode=True,
+            api_access_token="test-client-token",
+        )
+        with patch.object(main_module, "settings", protected_settings):
+            denied = self.client.post(
+                "/api/sessions",
+                json={"task_text": "测试任务", "mode": "standard"},
+            )
+            allowed = self.client.post(
+                "/api/sessions",
+                headers={"X-EasyAccess-Key": "test-client-token"},
+                json={"task_text": "测试任务", "mode": "standard"},
+            )
+
+        self.assertEqual(401, denied.status_code)
+        self.assertEqual("CLIENT_UNAUTHORIZED", denied.json()["detail"]["code"])
+        self.assertEqual(201, allowed.status_code)
+
     def test_create_analyze_feedback_flow(self):
         created = self.client.post(
             "/api/sessions",

@@ -87,5 +87,6 @@ python -m pytest backend\tests
 - `docs/api.md`：首个里程碑 API 契约
 - `docs/test-plan.md`：测试范围和验收方式
 - `docs/model-integration.md`：真实多模态模型配置、安全与降级
+- `docs/cloud-deployment.md`：阿里云函数计算部署与 Android 云端连接
 - `docs/preliminary-scope.md`：初赛三层功能范围
 - `docs/preliminary-test-report-v0.8.6.md`：当前 Android 真机验收结果、性能与限制
