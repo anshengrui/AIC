@@ -2,12 +2,12 @@
 
 更新日期：2026-09-27
 设备：Redmi 23049RAD8C
-模型：阿里云百炼 `qwen3.8-flash`
-部署：Android Debug APK + 阿里云函数计算 FastAPI
+模型：阿里云百炼 `qwen3.8-max-0902`
+部署：Android Debug APK + Render 免费 Web Service FastAPI
 
 ## 本版变化
 
-- 后端从开发电脑迁移至阿里云函数计算；公网 `/healthz` 曾验证返回 `status=ok`。2026-09-27 交接复查返回 `AccessDenied: Current user is in debt`，当前云端请求被账号费用状态阻塞。
+- 后端已从阿里云函数计算迁移至 Render；2026-09-27 公网 `/healthz` 返回 `status=ok`，`/api/health` 返回 `mock_mode=false`、`model_configured=true`、`save_screenshots=false` 和模型 `qwen3.8-max-0902`。
 - Android 通过 `android/local.properties` 读取云端地址和客户端令牌，真实值不进入 Git。
 - 云函数 Python 3.10 部署包补充 `exceptiongroup` 依赖。
 - Android 首页和悬浮面板完成第一轮视觉优化，版本升级为 `0.9.0`。

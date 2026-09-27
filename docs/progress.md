@@ -27,7 +27,7 @@
 
 ## 2026-09-27 云端与团队交接
 
-- [!] FastAPI 已部署且公网 `/healthz` 曾返回 `status=ok`；2026-09-27 复查被阿里云账号欠费状态拦截，待处理后重验。
+- [x] FastAPI 已迁移到 Render 免费 Web Service；2026-09-27 公网 `/healthz` 返回 `status=ok`，`/api/health` 确认真实模型已配置且截图不落盘。
 - [x] Android 通过本机 `local.properties` 接入云端地址和客户端令牌，真实值未进入 Git。
 - [x] 云函数 Python 3.10 部署清单增加 `exceptiongroup` 兼容依赖。
 - [x] Android 首页和悬浮面板完成第一轮视觉优化，版本升级为 `0.9.0`。
@@ -35,7 +35,8 @@
 - [x] 交接基线：后端 23 项测试、Web 类型检查/构建、Android 构建/Lint 全部通过。
 - [x] 新增 `AGENTS.md`、`docs/TEAM_HANDOFF.md`、初赛材料清单和提交包目录说明。
 - [ ] 队友在自己的环境完成一次全新克隆和 Mock 启动验证。
-- [ ] 断开电脑/ADB 后完成一次云端通用 AI 真机任务并检查云函数日志。
+- [ ] 将 Android 本机令牌与 Render 环境变量对齐后，断开电脑/ADB 完成一次云端通用 AI 真机任务并检查 Render 日志。
+
 ## D1-D2：工程骨架与 Mock 闭环
 
 ### 成员 A：算法/后端

@@ -1,6 +1,6 @@
 # EasyAccess 多模态模型接入
 
-当前后端支持 OpenAI 兼容的多模态 Chat Completions 接口。仓库的 `.env.example` 默认使用 `MOCK_MODE=true`，因此没有 API Key 也能完整演示原有闭环；已部署的云函数使用 `MOCK_MODE=false`。
+当前后端支持 OpenAI 兼容的多模态 Chat Completions 接口。仓库的 `.env.example` 默认使用 `MOCK_MODE=true`，因此没有 API Key 也能完整演示原有闭环；已部署的 Render Web Service 使用 `MOCK_MODE=false`。
 
 ## 切换到阿里云百炼
 
@@ -16,7 +16,7 @@
   "model_configured": true,
   "save_screenshots": false,
   "analysis_mode": "model",
-  "model_name": "qwen3.8-flash"
+  "model_name": "qwen3.8-max-0902"
 }
 ```
 
@@ -24,7 +24,7 @@
 
 ```dotenv
 LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
-LLM_MODEL=qwen3.8-flash
+LLM_MODEL=qwen3.8-max-0902
 LLM_ENABLE_THINKING=false
 MOCK_MODE=false
 ```

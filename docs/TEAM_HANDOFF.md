@@ -44,10 +44,10 @@ EasyAccess 当前已经是一个可安装、可在 Android 真机运行、可调
 | 模型适配 | `backend/app/llm/` | OpenAI 兼容多模态请求、Prompt、结构解析、一次修复和降级 |
 | 确定性逻辑 | `backend/app/services/` | Mock、会话状态和风险规则 |
 | Android | `android/app/src/main/` | 无障碍界面观察、本机文字识别、任务规则、云端 AI、覆盖层和语音提示 |
-| 云端入口 | `backend/server.py` | 阿里云函数计算 Web 函数启动入口，监听 `9000` |
+| 云端入口 | `backend/server.py` | Render / 容器 Web 服务启动入口，读取平台 `PORT` |
 | 部署 | `Dockerfile`、`backend/requirements-fc.txt` | 容器或 ZIP 部署依赖 |
 
-模型供应商通过 OpenAI 兼容接口隔离。当前云端使用阿里云百炼 `qwen3.8-flash`，关闭深度思考以降低界面定位等待时间。
+模型供应商通过 OpenAI 兼容接口隔离。当前 Render 云端使用阿里云百炼 `qwen3.8-max-0902`，关闭深度思考以降低界面定位等待时间。
 
 ## 4. 已完成并验证的内容
 
@@ -70,8 +70,8 @@ EasyAccess 当前已经是一个可安装、可在 Android 真机运行、可调
 
 ### 4.3 云端
 
-- FastAPI 已部署至阿里云函数计算，`/healthz` 曾验证返回 `status=ok`；但 2026-09-27 交接复查返回 `AccessDenied: Current user is in debt`，当前云端调用被账号费用状态阻塞。处理欠费或切换部署后必须重新验证。
-- Android 已配置连接云端并成功构建；公网地址和客户端令牌只保存在本机 `android/local.properties`，不进入 Git。
+- FastAPI 已迁移至 Render 免费 Web Service，公开地址为 `https://easy-access-api.onrender.com`；2026-09-27 已验证 `/healthz` 和 `/api/health` 正常。当前服务通过公开 Git URL 创建，后端代码更新后需在 Render 手动部署最新提交。
+- Android 的本机 API 地址已切换到 Render；客户端令牌只保存在本机 `android/local.properties`，且必须与 Render 的 `EASYACCESS_API_TOKEN` 完全一致，不进入 Git。
 - 云端百炼 API Key 只保存在函数环境变量，不写入 APK 或仓库。
 - 云函数 Python 3.10 ZIP 需要 `exceptiongroup` 兼容依赖，清单见 `backend/requirements-fc.txt`。
 
@@ -151,7 +151,7 @@ Android 本地创建 `android/local.properties`：
 
 ```properties
 sdk.dir=你的Android SDK路径
-EASYACCESS_API_BASE_URL=https://你的云函数域名/api
+EASYACCESS_API_BASE_URL=https://easy-access-api.onrender.com/api
 EASYACCESS_API_TOKEN=与云端一致的客户端令牌
 ```
 
@@ -169,7 +169,7 @@ EASYACCESS_API_TOKEN=与云端一致的客户端令牌
 
 ### P0：初赛必须先补齐
 
-1. 处理阿里云账号欠费/停服状态，或迁移至可用后端，并重新验证 `/healthz` 和一次 Android AI 请求。
+1. 对齐 Android 与 Render 的客户端令牌，并完成一次脱离电脑的真实模型真机请求；演示前提前访问 `/healthz` 唤醒免费实例。
 2. 用自制页面完成“关闭自动续费、隐私权限、校园表单”三条离线 Mock 路径。
 3. 创建 `datasets/` 的合规清单和至少 30 组样例/标注，先不使用真实敏感截图。
 4. 建立离线评测脚本，输出规格书第 10 节指标，并完成三组对比实验。

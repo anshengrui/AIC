@@ -13,8 +13,8 @@ EasyAccess 是面向数字操作无障碍场景的逐步导航助手。当前版
 
 - 已完成：Mock 闭环、OpenAI 兼容多模态 Provider、Android 实时界面感知、逐步高亮、语音提示、安全拦截和通用 AI 任务。
 - 当前 Android 测试版：`0.9.0`，已完成第一轮首页与悬浮面板视觉优化。
-- 当前真实模型：阿里云百炼 `qwen3.8-flash`；保留 `MOCK_MODE=true` 的离线演示能力。
-- FastAPI 后端已部署到阿里云函数计算并曾通过公网健康检查；2026-09-27 最新复查被阿里云账号欠费状态拦截，恢复费用状态后需重新验证。真实域名和客户端令牌不进入仓库。
+- 当前真实模型：阿里云百炼 `qwen3.8-max-0902`；保留 `MOCK_MODE=true` 的离线演示能力。
+- FastAPI 后端已迁移到 Render 免费 Web Service；2026-09-27 已验证公网 `/healthz` 和 `/api/health` 正常。客户端令牌仍不进入仓库。
 - 四个固定流程、两个通用 AI 任务、安全拦截和页面切换续接已完成一轮真机验收。
 - 本机已使用 Python 3.12 创建 `.venv`；系统默认 `python` 仍可能指向旧版，请按下方命令激活虚拟环境。
 - 2026-09-27 交接基线：后端测试 23 项通过；Android Debug APK 构建与 Lint 通过；前端类型检查和生产构建通过。
@@ -90,7 +90,7 @@ python -m pytest backend\tests
 - `docs/api.md`：首个里程碑 API 契约
 - `docs/test-plan.md`：测试范围和验收方式
 - `docs/model-integration.md`：真实多模态模型配置、安全与降级
-- `docs/cloud-deployment.md`：阿里云函数计算部署与 Android 云端连接
+- `docs/cloud-deployment.md`：Render / 阿里云部署与 Android 云端连接
 - `docs/preliminary-scope.md`：初赛三层功能范围
 - `docs/preliminary-test-report-v0.8.6.md`：当前 Android 真机验收结果、性能与限制
 - `docs/preliminary-test-report-v0.9.0.md`：云端接线、构建和新版界面交接验证

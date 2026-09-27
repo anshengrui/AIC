@@ -28,7 +28,7 @@
 
 ```properties
 sdk.dir=你的Android SDK路径
-EASYACCESS_API_BASE_URL=https://你的云函数域名/api
+EASYACCESS_API_BASE_URL=https://easy-access-api.onrender.com/api
 EASYACCESS_API_TOKEN=与云端相同的客户端令牌
 ```
 
