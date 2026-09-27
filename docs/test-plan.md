@@ -28,7 +28,7 @@
 
 ## 当前执行记录
 
-- 后端自动化测试：21 项通过。
+- 后端自动化测试：23 项通过（2026-09-27 交接基线）。
 - Android：`assembleDebug` 与 `lintDebug` 通过。
-- Android 真机单轮结果见 `preliminary-test-report-v0.8.6.md`。
+- Android 真机流程结果见 `preliminary-test-report-v0.8.6.md`；云端接线、构建与界面交接结果见 `preliminary-test-report-v0.9.0.md`。
 - 单轮通过仅表示当前版本具备演示条件，不替代后续重复实验和多人可用性测试。

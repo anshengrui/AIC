@@ -10,6 +10,7 @@ frontend/dist/
 frontend/.vite/
 tmp/
 .tmp/
+artifacts/
 .gradle-user-home/
 .DS_Store
 

@@ -14,7 +14,7 @@
     <string name="ai_guidance_disabled_status">AI 界面识别默认关闭</string>
     <string name="enable_ai_guidance">同意并开启 AI 界面识别</string>
     <string name="disable_ai_guidance">关闭 AI 界面识别</string>
-    <string name="ai_unavailable_overlay">暂时无法连接 AI 服务，请确认电脑后端正在运行</string>
+    <string name="ai_unavailable_overlay">暂时无法连接 AI 服务，请检查网络连接后重试</string>
     <string name="no_guidance_task_selected">尚未选择任务</string>
     <string name="selected_guidance_task_format">✓ 当前任务：%1$s</string>
     <string name="service_enabled_status">✓ 界面辅助服务已开启</string>

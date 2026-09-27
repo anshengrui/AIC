@@ -12,11 +12,14 @@ EasyAccess 是面向数字操作无障碍场景的逐步导航助手。当前版
 ## 当前状态
 
 - 已完成：Mock 闭环、OpenAI 兼容多模态 Provider、Android 实时界面感知、逐步高亮、语音提示、安全拦截和通用 AI 任务。
-- 当前 Android 测试版：`0.8.6`。
+- 当前 Android 测试版：`0.9.0`，已完成第一轮首页与悬浮面板视觉优化。
 - 当前真实模型：阿里云百炼 `qwen3.8-flash`；保留 `MOCK_MODE=true` 的离线演示能力。
+- FastAPI 后端已部署到阿里云函数计算并曾通过公网健康检查；2026-09-27 最新复查被阿里云账号欠费状态拦截，恢复费用状态后需重新验证。真实域名和客户端令牌不进入仓库。
 - 四个固定流程、两个通用 AI 任务、安全拦截和页面切换续接已完成一轮真机验收。
 - 本机已使用 Python 3.12 创建 `.venv`；系统默认 `python` 仍可能指向旧版，请按下方命令激活虚拟环境。
-- 后端测试 21 项通过；Android Debug APK 构建与 Lint 通过；前端类型检查和生产构建通过。
+- 2026-09-27 交接基线：后端测试 23 项通过；Android Debug APK 构建与 Lint 通过；前端类型检查和生产构建通过。
+
+新成员或新的开发模型请先阅读根目录 `AGENTS.md` 和 `docs/TEAM_HANDOFF.md`。初赛仍需补齐的材料与实验见 `docs/PRELIMINARY_SUBMISSION_CHECKLIST.md`。
 
 ## Windows 安装
 
@@ -71,7 +74,7 @@ npm run build
 python -m pytest backend\tests
 ```
 
-当前验证基线：后端 `21 passed`；Android `assembleDebug` 与 `lintDebug` 通过；前端 `vue-tsc` 与 Vite 生产构建通过。
+当前验证基线：后端 `23 passed`；Android `assembleDebug` 与 `lintDebug` 通过；前端 `vue-tsc` 与 Vite 生产构建通过。
 
 ## 安全与隐私
 
@@ -90,3 +93,7 @@ python -m pytest backend\tests
 - `docs/cloud-deployment.md`：阿里云函数计算部署与 Android 云端连接
 - `docs/preliminary-scope.md`：初赛三层功能范围
 - `docs/preliminary-test-report-v0.8.6.md`：当前 Android 真机验收结果、性能与限制
+- `docs/preliminary-test-report-v0.9.0.md`：云端接线、构建和新版界面交接验证
+- `docs/TEAM_HANDOFF.md`：队友接手所需的完整项目说明、真实进度和优先级
+- `docs/PRELIMINARY_SUBMISSION_CHECKLIST.md`：初赛材料、数据、实验、视频和 PPT 清单
+- `submission/README.md`：最终提交包的目录、命名与安全规则

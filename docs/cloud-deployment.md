@@ -2,6 +2,8 @@
 
 本方案将 Android 客户端、EasyAccess FastAPI 服务和百炼模型分离。百炼 API Key 只保存在云端，不能写入 APK 或提交到 Git。
 
+当前状态（2026-09-27）：已在阿里云函数计算完成一次部署，公网 `/healthz` 曾验证通过；交接复查返回 `AccessDenied: Current user is in debt`。需先处理阿里云账号欠费/停服状态或重新部署，再执行本页验证。真实公网域名、百炼 API Key 和客户端令牌不写入仓库，由负责人通过安全渠道提供或由接手者重新部署。
+
 ## 一、部署前验证
 
 在项目根目录执行：
@@ -37,7 +39,13 @@ docker run --rm -p 9000:9000 --env-file .env easyaccess-api
 1. 连接 GitHub 仓库并使用根目录 `Dockerfile` 构建；
 2. 上传 `backend` 代码包，启动命令设置为 `python3 server.py`。
 
-若使用代码包，必须把 `backend/requirements.txt` 中的依赖一并安装到代码包，或使用平台的自动依赖安装功能。
+控制台直接上传时，使用本项目生成的 `artifacts/easyaccess-fc-python310.zip`。构建产物被 Git 忽略，接手者在项目根目录重新生成：
+
+```powershell
+.\scripts\build-fc-package.ps1
+```
+
+脚本按照 Linux CPython 3.10 安装 `backend/requirements-fc.txt`，并检查 `server.py`、`exceptiongroup` 和 ZIP 内路径格式。不要直接把 Windows 本机的 `site-packages` 压缩上传。
 
 ## 三、云端环境变量
 

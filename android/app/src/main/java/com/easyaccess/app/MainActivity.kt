@@ -2,10 +2,12 @@ package com.easyaccess.app
 
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.res.ColorStateList
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
 import android.provider.Settings
 import android.speech.RecognizerIntent
@@ -64,6 +66,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = Color.rgb(241, 246, 252)
+        window.navigationBarColor = Color.rgb(241, 246, 252)
         setContentView(buildContentView())
     }
 
@@ -85,23 +89,25 @@ class MainActivity : AppCompatActivity() {
     private fun buildContentView(): View {
         val page = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(18), dp(22), dp(18), dp(32))
-            setBackgroundColor(Color.rgb(244, 247, 251))
+            setPadding(dp(16), dp(16), dp(16), dp(36))
+            setBackgroundColor(Color.rgb(241, 246, 252))
         }
 
-        page.addView(textView("EasyAccess", 34f, true, Color.rgb(17, 54, 88)))
+        page.addView(textView("EasyAccess", 30f, true, Color.rgb(20, 48, 78)))
         page.addView(textView(
-            "看清位置，听懂步骤，自己完成操作",
-            17f,
-            false,
-            Color.rgb(73, 94, 114),
-        ).apply { setPadding(0, dp(2), 0, dp(18)) })
+            "云端 AI 版  ·  您的手机操作助手",
+            15f,
+            true,
+            Color.rgb(12, 112, 73),
+        ).apply { setPadding(0, dp(3), 0, dp(16)) })
 
         page.addView(card().apply {
-            addView(textView("您想做什么？", 25f, true, Color.rgb(17, 54, 88)))
+            addView(sectionLabel("开始帮助"))
+            addView(textView("您想完成什么？", 25f, true, Color.rgb(20, 48, 78)))
+            addView(textView("可以说出来，也可以在下面输入。", 15f, false, Color.rgb(91, 111, 132)).apply { setPadding(0, dp(5), 0, 0) })
             addView(actionButton(
-                label = "点击说出您的需求",
-                color = Color.rgb(17, 112, 73),
+                label = "说出我想做的事",
+                color = Color.rgb(23, 105, 224),
                 textSizeSp = 21f,
             ).apply {
                 setOnClickListener { launchSpeechRecognition() }
@@ -116,18 +122,26 @@ class MainActivity : AppCompatActivity() {
             taskInputView = EditText(this@MainActivity).apply {
                 hint = "也可以输入：帮我在淘宝申请退款"
                 textSize = 18f
+                setTextColor(Color.rgb(20, 48, 78))
+                setHintTextColor(Color.rgb(133, 151, 169))
                 minLines = 2
                 maxLines = 4
-                setPadding(dp(14), dp(12), dp(14), dp(12))
+                gravity = Gravity.TOP
+                setPadding(dp(16), dp(14), dp(16), dp(14))
+                background = roundedBackground(
+                    Color.rgb(247, 250, 253),
+                    15,
+                    Color.rgb(202, 215, 229),
+                )
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
-                ).apply { topMargin = dp(12) }
+                ).apply { topMargin = dp(14) }
             }
             addView(taskInputView)
             addView(actionButton(
-                label = "开始 AI 通用帮助",
-                color = Color.rgb(92, 67, 176),
+                label = "开始智能帮助",
+                color = Color.rgb(23, 105, 224),
                 textSizeSp = 20f,
             ).apply {
                 setOnClickListener {
@@ -142,7 +156,9 @@ class MainActivity : AppCompatActivity() {
         })
 
         page.addView(card(topMarginDp = 16).apply {
-            addView(textView("也可以直接选择", 22f, true, Color.rgb(17, 54, 88)))
+            addView(sectionLabel("常用操作"))
+            addView(textView("点一下，立即开始", 23f, true, Color.rgb(20, 48, 78)))
+            addView(textView("常用功能无需输入，选择后会自动打开对应应用。", 15f, false, Color.rgb(91, 111, 132)).apply { setPadding(0, dp(5), 0, dp(2)) })
             addView(taskButton(GuidanceTask.TAOBAO_LOGISTICS))
             addView(taskButton(GuidanceTask.TAOBAO_CUSTOMER_SERVICE))
             addView(taskButton(GuidanceTask.ALIPAY_TRANSIT))
@@ -150,9 +166,22 @@ class MainActivity : AppCompatActivity() {
         })
 
         page.addView(card(topMarginDp = 16).apply {
-            addView(textView("当前帮助", 22f, true, Color.rgb(17, 54, 88)))
+            background = roundedBackground(
+                Color.rgb(235, 244, 255),
+                20,
+                Color.rgb(181, 210, 246),
+            )
+            addView(sectionLabel("当前任务"))
+            addView(textView("帮助进度", 23f, true, Color.rgb(20, 48, 78)))
             sessionStatusView = textView("", 17f, true, Color.rgb(88, 108, 128))
-                .apply { setPadding(0, dp(10), 0, 0) }
+                .apply {
+                    setPadding(dp(14), dp(12), dp(14), dp(12))
+                    background = roundedBackground(Color.WHITE, 13)
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                    ).apply { topMargin = dp(12) }
+                }
             addView(sessionStatusView)
             endSessionButton = actionButton(
                 label = "结束当前帮助",
@@ -168,7 +197,9 @@ class MainActivity : AppCompatActivity() {
         })
 
         page.addView(card(topMarginDp = 16).apply {
-            addView(textView("使用准备", 22f, true, Color.rgb(17, 54, 88)))
+            addView(sectionLabel("使用准备"))
+            addView(textView("确认辅助功能已开启", 23f, true, Color.rgb(20, 48, 78)))
+            addView(textView("首次使用只需设置一次，之后可以直接开始帮助。", 15f, false, Color.rgb(91, 111, 132)).apply { setPadding(0, dp(5), 0, 0) })
             serviceStatusView = textView("", 17f, true, Color.rgb(143, 37, 48))
                 .apply { setPadding(0, dp(10), 0, 0) }
             addView(serviceStatusView)
@@ -205,9 +236,9 @@ class MainActivity : AppCompatActivity() {
             addView(aiToggleButton)
         })
 
-        page.addView(actionButton(
-            label = "显示开发测试信息",
-            color = Color.rgb(80, 101, 121),
+        page.addView(outlineActionButton(
+            label = "查看开发测试信息",
+            textColor = Color.rgb(73, 94, 114),
             textSizeSp = 15f,
         ).apply {
             setOnClickListener {
@@ -236,11 +267,14 @@ class MainActivity : AppCompatActivity() {
         page.addView(developerPanel)
 
         page.addView(textView(
-            "EasyAccess 只提供位置和语音指引。支付、发送消息和确认操作始终由您本人完成。",
+            "隐私与安全：EasyAccess 只提供位置和语音指引。支付、发送消息和最终确认始终由您本人完成。",
             14f,
             false,
             Color.rgb(88, 108, 128),
-        ).apply { setPadding(dp(4), dp(20), dp(4), 0) })
+        ).apply {
+            gravity = Gravity.CENTER
+            setPadding(dp(8), dp(22), dp(8), 0)
+        })
 
         return ScrollView(this).apply { addView(page) }
     }
@@ -285,7 +319,7 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("开启 AI 通用帮助")
                 .setMessage(
-                    "EasyAccess 会在任务进行时发送当前页面的单帧截图到您配置的电脑后端，" +
+                    "EasyAccess 会在任务进行时发送当前页面的单帧截图到 EasyAccess 云端 AI 服务，" +
                         "由多模态模型判断下一步。截图不保存；请勿在密码、验证码或付款页面继续。",
                 )
                 .setPositiveButton("同意并开始") { _, _ ->
@@ -366,7 +400,7 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("开启 AI 界面识别")
             .setMessage(
-                "当本机规则找不到下一步时，EasyAccess 会把当前屏幕截图发送到您配置的电脑后端，" +
+                "当本机规则找不到下一步时，EasyAccess 会把当前屏幕截图发送到 EasyAccess 云端 AI 服务，" +
                     "由多模态模型分析。截图只用于本次识别，服务器不保存；请勿在密码、验证码或付款页面开启。",
             )
             .setPositiveButton("同意并开启") { _, _ ->
@@ -494,6 +528,46 @@ class MainActivity : AppCompatActivity() {
             if (bold) setTypeface(typeface, Typeface.BOLD)
         }
 
+    private fun sectionLabel(label: String) =
+        textView(label, 13f, true, Color.rgb(23, 105, 224)).apply {
+            letterSpacing = 0.08f
+            setPadding(0, 0, 0, dp(5))
+        }
+
+    private fun roundedBackground(
+        color: Int,
+        radiusDp: Int,
+        strokeColor: Int? = null,
+    ) = GradientDrawable().apply {
+        setColor(color)
+        cornerRadius = dp(radiusDp).toFloat()
+        strokeColor?.let { setStroke(dp(1), it) }
+    }
+
+    private fun outlineActionButton(label: String, textColor: Int, textSizeSp: Float) =
+        Button(this).apply {
+            text = label
+            textSize = textSizeSp
+            isAllCaps = false
+            setTextColor(textColor)
+            gravity = Gravity.CENTER
+            minHeight = dp(56)
+            setTypeface(typeface, Typeface.BOLD)
+            background = RippleDrawable(
+                ColorStateList.valueOf(Color.argb(24, 23, 105, 224)),
+                roundedBackground(
+                    Color.TRANSPARENT,
+                    16,
+                    Color.rgb(190, 205, 220),
+                ),
+                null,
+            )
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+            ).apply { topMargin = dp(14) }
+        }
+
     private fun actionButton(label: String, color: Int, textSizeSp: Float) =
         Button(this).apply {
             text = label
@@ -501,12 +575,18 @@ class MainActivity : AppCompatActivity() {
             isAllCaps = false
             setTextColor(Color.WHITE)
             gravity = Gravity.CENTER
-            minHeight = dp(62)
-            setPadding(dp(14), dp(10), dp(14), dp(10))
-            background = GradientDrawable().apply {
+            minHeight = dp(64)
+            setPadding(dp(16), dp(11), dp(16), dp(11))
+            setTypeface(typeface, Typeface.BOLD)
+            background = RippleDrawable(
+                ColorStateList.valueOf(Color.argb(48, 255, 255, 255)),
+                GradientDrawable().apply {
                 setColor(color)
-                cornerRadius = dp(16).toFloat()
-            }
+                    cornerRadius = dp(17).toFloat()
+                },
+                null,
+            )
+            elevation = dp(2).toFloat()
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -515,13 +595,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun card(topMarginDp: Int = 0) = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL
-        setPadding(dp(18), dp(18), dp(18), dp(18))
+        setPadding(dp(20), dp(20), dp(20), dp(20))
         background = GradientDrawable().apply {
             setColor(Color.WHITE)
-            cornerRadius = dp(18).toFloat()
-            setStroke(dp(1), Color.rgb(218, 227, 236))
+            cornerRadius = dp(20).toFloat()
+            setStroke(dp(1), Color.rgb(214, 225, 237))
         }
-        elevation = dp(2).toFloat()
+        elevation = dp(3).toFloat()
         layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT,
